@@ -53,7 +53,8 @@
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }
 
-  /* ----- Manifesto: word-by-word reveal tied to scroll ----- */
+  /* ----- Manifesto: words cascade bright when a block crosses ~60% of the
+     viewport, and dim again on the way back up (matches the original) ----- */
   var blocks = document.querySelectorAll('.manifesto-block');
   if (blocks.length) {
     blocks.forEach(function (block) {
@@ -63,26 +64,41 @@
         var span = document.createElement('span');
         span.className = 'w';
         span.textContent = word;
+        span.style.setProperty('--d', (i * 0.04) + 's');
         block.appendChild(span);
         if (i < words.length - 1) block.appendChild(document.createTextNode(' '));
       });
     });
 
     var updateReveal = function () {
-      var vh = window.innerHeight;
+      var line = window.innerHeight * 0.62;
       blocks.forEach(function (block) {
-        var r = block.getBoundingClientRect();
-        // 0 when block top is at 88% of viewport, 1 when at 38%
-        var progress = (vh * 0.88 - r.top) / (vh * 0.5);
-        progress = Math.max(0, Math.min(1, progress));
-        var words = block.querySelectorAll('.w');
-        var lit = Math.round(progress * words.length);
-        words.forEach(function (w, i) { w.classList.toggle('lit', i < lit); });
+        block.classList.toggle('lit', block.getBoundingClientRect().top < line);
       });
     };
     window.addEventListener('scroll', updateReveal, { passive: true });
     window.addEventListener('resize', updateReveal);
     updateReveal();
+  }
+
+  /* ----- Hero parallax: background scrolls at 70% speed (Framer speed=70) ----- */
+  var heroBg = document.querySelector('.hero-bg');
+  if (heroBg && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var parallaxTicking = false;
+    var updateParallax = function () {
+      parallaxTicking = false;
+      var y = window.scrollY;
+      if (y < window.innerHeight * 1.5) {
+        heroBg.style.transform = 'translate3d(0,' + (y * 0.3).toFixed(1) + 'px,0)';
+      }
+    };
+    window.addEventListener('scroll', function () {
+      if (!parallaxTicking) {
+        parallaxTicking = true;
+        requestAnimationFrame(updateParallax);
+      }
+    }, { passive: true });
+    updateParallax();
   }
 
   /* ----- Marquee: duplicate track content for a seamless loop ----- */
