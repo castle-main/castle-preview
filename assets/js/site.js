@@ -5,15 +5,6 @@
 (function () {
   'use strict';
 
-  /* ----- Nav: translucent bar once scrolled ----- */
-  var nav = document.querySelector('.site-nav');
-  function onScroll() {
-    if (!nav) return;
-    nav.classList.toggle('scrolled', window.scrollY > 24);
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
   /* ----- Mobile menu ----- */
   var burger = document.querySelector('.nav-burger');
   var menu = document.querySelector('.mobile-menu');
@@ -31,7 +22,22 @@
     });
   }
 
-  /* ----- Generic scroll-in reveals ----- */
+  /* ----- Scroll-in reveals (rise + fade, staggered within card groups) -----
+     .reveal can be set in the HTML; common card/heading elements get it
+     automatically so every page animates without per-file markup. */
+  ['.feature-card', '.blog-card', '.team-card', '.section-header'].forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (el) { el.classList.add('reveal'); });
+  });
+
+  // stagger: delay each element by its index among reveal-siblings
+  document.querySelectorAll('.reveal').forEach(function (el) {
+    var siblings = el.parentElement ? [].filter.call(el.parentElement.children, function (c) {
+      return c.classList.contains('reveal');
+    }) : [el];
+    var i = siblings.indexOf(el);
+    if (i > 0) el.style.transitionDelay = (i * 0.12) + 's';
+  });
+
   var revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && revealEls.length) {
     var io = new IntersectionObserver(function (entries) {
@@ -41,7 +47,7 @@
           io.unobserve(en.target);
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     revealEls.forEach(function (el) { io.observe(el); });
   } else {
     revealEls.forEach(function (el) { el.classList.add('in'); });
