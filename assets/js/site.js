@@ -27,7 +27,7 @@
      automatically so every page animates without per-file markup.
      Original behavior: trigger at 50% visibility, run once, stagger
      siblings 0.2s apart — except blog cards, which all rise together. */
-  ['.feature-card', '.blog-card', '.team-card', '.section-header'].forEach(function (sel) {
+  ['.feature-card', '.blog-card', '.team-card', '.section-header', '.product-header'].forEach(function (sel) {
     document.querySelectorAll(sel).forEach(function (el) { el.classList.add('reveal'); });
   });
 
