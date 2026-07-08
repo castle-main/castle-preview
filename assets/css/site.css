@@ -337,31 +337,31 @@ h1, h2, h3, h4 { margin: 0; font-family: var(--font-serif); font-weight: 400; }
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
+/* Original: plain white card — no border, no shadow, 4px radius, 24px pad */
 .feature-card {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 28px;
+  border-radius: var(--radius-sm);
+  padding: 24px;
   display: flex;
   flex-direction: column;
 }
 .feature-card .art {
-  height: 260px;
+  height: 280px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
 }
 .feature-card .art img { max-height: 100%; width: auto; }
 .feature-card h3 {
   font-family: var(--font-mono);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
   color: var(--ink);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
-.feature-card p { margin: 0; font-size: 14.5px; color: var(--gray-600); line-height: 1.55; }
+.feature-card p { margin: 0; font-size: 16px; color: var(--gray-500); line-height: 1.4; }
 
 @media (max-width: 900px) {
   .features-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
