@@ -122,7 +122,7 @@ h1, h2, h3, h4 { margin: 0; font-family: var(--font-serif); font-weight: 400; }
 
 .btn-light { background: #ffffff; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
 .btn-dark  { background: var(--ink); color: #ffffff; }
-.btn-sm    { padding: 8px 16px; }
+.btn-sm    { padding: 6px 16px; line-height: 1.5; } /* original nav CTA: 33px tall */
 
 /* --------------------------------------------------------------------------
    Navigation
@@ -142,7 +142,7 @@ h1, h2, h3, h4 { margin: 0; font-family: var(--font-serif); font-weight: 400; }
   pointer-events: auto;
   max-width: var(--container);
   margin: 0 auto;
-  padding: 12px 16px;
+  padding: 12px; /* original: logo and CTA sit 12px from the pill edges */
   height: 57px;
   border-radius: 6px;
   background: rgba(21, 16, 6, .30);
@@ -159,7 +159,7 @@ h1, h2, h3, h4 { margin: 0; font-family: var(--font-serif); font-weight: 400; }
   .site-nav { padding: 12px 12px 0; }
 }
 .nav-logo { display: flex; align-items: center; color: #f5f5f5; }
-.nav-logo svg, .nav-logo img { height: 22px; width: auto; }
+.nav-logo svg, .nav-logo img { width: 97px; height: auto; } /* original: 97×27.9 */
 
 .nav-links {
   justify-self: center;
