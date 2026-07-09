@@ -109,31 +109,36 @@ h1, h2, h3, h4 { margin: 0; font-family: var(--font-serif); font-weight: 400; }
    -------------------------------------------------------------------------- */
 
 .btn {
+  --btn-pad: 12px;
   display: inline-block;
+  position: relative;
   font-family: var(--font-mono);
   font-size: 14px;
   font-weight: 500;
   line-height: 1.5; /* original: 21px label line, 45px hero button */
   letter-spacing: -0.02em;
   border-radius: var(--radius-sm);
-  padding: 12px 24px;
+  padding: var(--btn-pad) 24px;
+  overflow: clip; /* the original clips at the button edge, so the rolling
+                     label stays visible through the padding zone */
   transition: background-color .45s cubic-bezier(.25, .9, .35, 1);
   cursor: pointer;
   border: none;
 }
 .btn:active { transform: scale(.98); }
 
-/* Hover: bg fades to gray-300 while the label ROLLS UP — it slides out
-   through the top as an identical copy (sitting one line below in the
-   original's DOM too) rises into place. Original tween: spring duration 1 /
-   bounce .2, approximated with a softly overshooting cubic. The duplicate
-   label span is added by site.js.
-   (track is block, not inline-block: overflow on an inline-block moves its
-   baseline to the box bottom and breaks the button's vertical alignment) */
-.btn-track { position: relative; display: block; overflow: clip; }
+/* Hover: bg fades to gray-300 while the label ROLLS UP through the whole
+   button — the duplicate starts at the button's bottom edge (outside the
+   clip) and both copies travel one line + one pad, so the motion crosses
+   the padding zone uncut, exactly like the original (which clips at the
+   button border, duplicate parked at its bottom edge). Original tween:
+   spring duration 1 / bounce .2 ≈ softly overshooting cubic. The duplicate
+   span is added by site.js. Track stays unclipped and unpositioned so the
+   duplicate anchors to the button itself. */
+.btn-track { display: block; }
 .btn-track > span { display: block; transition: transform .65s cubic-bezier(.32, 1.25, .5, 1); }
 .btn-track > span + span { position: absolute; left: 0; top: 100%; width: 100%; text-align: center; }
-.btn:hover .btn-track > span { transform: translateY(-100%); }
+.btn:hover .btn-track > span { transform: translateY(calc(-100% - var(--btn-pad))); }
 @media (prefers-reduced-motion: reduce) {
   .btn-track > span { transition: none; }
   .btn:hover .btn-track > span { transform: none; }
@@ -142,7 +147,7 @@ h1, h2, h3, h4 { margin: 0; font-family: var(--font-serif); font-weight: 400; }
 .btn-light { background: #ffffff; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
 .btn-light:hover { background: var(--gray-300); } /* original: #d4d4d4 */
 .btn-dark  { background: var(--ink); color: #ffffff; }
-.btn-sm    { padding: 6px 16px; line-height: 1.5; } /* original nav CTA: 33px tall */
+.btn-sm    { --btn-pad: 6px; padding: var(--btn-pad) 16px; line-height: 1.5; } /* original nav CTA: 33px tall */
 
 /* --------------------------------------------------------------------------
    Navigation
